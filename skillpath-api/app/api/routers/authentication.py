@@ -5,6 +5,8 @@ from app.repositories.user_repository import UserRepository
 from app.schemas.authentication_schema import RegisterRequest
 from app.services.authentication_service import AuthenticationService
 from app.schemas.auth import LoginRequest, LoginResponse
+from app.dependencies.authentication import get_current_user
+from app.models.user import User
 
 
 router = APIRouter(
@@ -39,3 +41,12 @@ def login(
     service = AuthenticationService(user_repository)
 
     return service.login_user(request)
+
+@router.get("/me")
+def get_current_user_info(
+    current_user: User = Depends(get_current_user)
+):
+    return {
+        "user_id": str(current_user.id),
+        "email": current_user.email
+    }

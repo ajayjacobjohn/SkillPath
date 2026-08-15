@@ -8,7 +8,7 @@ from app.repositories.user_repository import UserRepository
 from app.schemas.authentication_schema import RegisterRequest
 from app.utils.security import hash_password, verify_password
 from app.schemas.auth import LoginRequest, LoginResponse
-
+from app.core.security import create_access_token
 
 class AuthenticationService:
 
@@ -48,7 +48,9 @@ class AuthenticationService:
         if not verify_password(request.password, user.password_hash):
             raise InvalidCredentialsException()
 
+        access_token = create_access_token(str(user.id))
+
         return LoginResponse(
-            user_id=str(user.id),
-            email=user.email
+            access_token=access_token,
+            token_type="bearer"
         )
