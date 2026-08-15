@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="skillpath-gradient" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6d5dfc"/>
+      <stop offset="1" stop-color="#8b7cff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#skillpath-gradient)"/>
+  <path d="M43.5 19.5c-2.8-2.6-6.7-4-11.1-4-7.3 0-12.1 3.8-12.1 9.3 0 5.8 4.5 7.8 11.4 9.3 5 1.1 6.8 2.1 6.8 4.5 0 2.5-2.4 4.1-6.2 4.1-4.2 0-7.8-1.6-10.6-4.7l-4.2 4.5c3.7 4.2 8.8 6.3 14.7 6.3 7.9 0 12.8-4 12.8-10.1 0-5.9-4.1-8.1-11.7-9.8-4.7-1-6.5-1.9-6.5-4.2 0-2.1 2.1-3.5 5.5-3.5 3.1 0 5.8 1 8 3.1l3.2-4.8Z" fill="#fff"/>
+</svg>
