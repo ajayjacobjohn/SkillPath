@@ -50,3 +50,24 @@ export async function register(email, password, confirmPassword) {
 
   return response.json();
 }
+
+export async function getCurrentUser(accessToken) {
+  const response = await fetch(`${API_BASE_URL}/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+
+    throw new Error(
+      errorData.message ||
+        errorData.detail ||
+        "Unable to load the current user."
+    );
+  }
+
+  return response.json();
+}
