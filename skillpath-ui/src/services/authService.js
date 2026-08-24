@@ -6,6 +6,20 @@ const API_ORIGIN =
 
 const API_BASE_URL = `${API_ORIGIN}/api/v1/auth`;
 
+async function parseApiResponse(response, fallbackMessage) {
+  const responseBody = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      responseBody.message ||
+        responseBody.detail ||
+        fallbackMessage
+    );
+  }
+
+  return responseBody.data;
+}
+
 export async function login(email, password) {
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: "POST",
@@ -18,17 +32,7 @@ export async function login(email, password) {
     }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-
-    throw new Error(
-      errorData.message ||
-        errorData.detail ||
-        "Login failed."
-    );
-  }
-
-  return response.json();
+  return parseApiResponse(response, "Login failed.");
 }
 
 export async function register(email, password, confirmPassword) {
@@ -44,17 +48,7 @@ export async function register(email, password, confirmPassword) {
     }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-
-    throw new Error(
-      errorData.message ||
-        errorData.detail ||
-        "Registration failed."
-    );
-  }
-
-  return response.json();
+  return parseApiResponse(response, "Registration failed.");
 }
 
 export async function getCurrentUser(accessToken) {
@@ -65,15 +59,8 @@ export async function getCurrentUser(accessToken) {
     },
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-
-    throw new Error(
-      errorData.message ||
-        errorData.detail ||
-        "Unable to load the current user."
-    );
-  }
-
-  return response.json();
+  return parseApiResponse(
+    response,
+    "Unable to load the current user."
+  );
 }
