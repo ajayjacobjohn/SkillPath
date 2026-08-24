@@ -1,4 +1,10 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api/v1/auth";
+const API_ORIGIN =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD
+    ? "https://skillpath-api-ajay-gtf2aacvf8cscqer.centralindia-01.azurewebsites.net"
+    : "http://127.0.0.1:8000");
+
+const API_BASE_URL = `${API_ORIGIN}/api/v1/auth`;
 
 export async function login(email, password) {
   const response = await fetch(`${API_BASE_URL}/login`, {
