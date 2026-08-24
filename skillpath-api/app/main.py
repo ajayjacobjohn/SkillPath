@@ -21,6 +21,7 @@ app = FastAPI(
 
 origins = [
     "http://localhost:5173",
+    "https://orange-stone-0b696b200.7.azurestaticapps.net",
 ]
 
 app.add_middleware(
