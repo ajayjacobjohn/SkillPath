@@ -1,22 +1,26 @@
-from fastapi import FastAPI
-from app.api.routers import health
-from app.api.routers import authentication
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from app.exceptions.exception_handlers import (
-    password_mismatch_exception_handler,
-    user_already_exists_exception_handler,
-    invalid_credentials_exception_handler
-)
+
+from app.api.routers import authentication, health
 from app.exceptions.application_exceptions import (
+    InvalidCredentialsException,
     PasswordMismatchException,
     UserAlreadyExistsException,
-    InvalidCredentialsException
 )
+from app.exceptions.exception_handlers import (
+    http_exception_handler,
+    invalid_credentials_exception_handler,
+    password_mismatch_exception_handler,
+    user_already_exists_exception_handler,
+    validation_exception_handler,
+)
+
 
 app = FastAPI(
     title="SkillPath API",
     description="Backend API for the SkillPath learning platform",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 origins = [
@@ -33,22 +37,29 @@ app.add_middleware(
 )
 
 app.add_exception_handler(
-    PasswordMismatchException, 
-    password_mismatch_exception_handler
+    PasswordMismatchException,
+    password_mismatch_exception_handler,
+)
+app.add_exception_handler(
+    UserAlreadyExistsException,
+    user_already_exists_exception_handler,
+)
+app.add_exception_handler(
+    InvalidCredentialsException,
+    invalid_credentials_exception_handler,
+)
+app.add_exception_handler(
+    HTTPException,
+    http_exception_handler,
+)
+app.add_exception_handler(
+    RequestValidationError,
+    validation_exception_handler,
 )
 
 app.include_router(health.router)
 app.include_router(authentication.router)
 
-app.add_exception_handler(
-    UserAlreadyExistsException,
-    user_already_exists_exception_handler
-)
-
-app.add_exception_handler(
-    InvalidCredentialsException,
-    invalid_credentials_exception_handler
-)
 
 @app.get("/")
 def root():
